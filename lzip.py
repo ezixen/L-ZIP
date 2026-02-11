@@ -246,7 +246,7 @@ class LZIPTranslator:
         for keyword, operator in self.TECHNIQUE_KEYWORDS.items():
             if keyword.lower() in remaining.lower():
                 operators.append(operator)
-                remaining = remaining.replace(keyword, '', count=1)
+                remaining = remaining.replace(keyword, '', 1)
         
         # Remove extra spaces
         remaining = re.sub(r'\s+', ' ', remaining).strip()
