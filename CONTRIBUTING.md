@@ -110,12 +110,6 @@ Update relevant documentation for your changes:
 - Code refactoring
 - Test coverage
 
-### Documentation
-- Usage examples
-- Tutorials
-- Best practices guides
-- Integration guides
-
 ## Pull Request Process
 
 1. **Title**: Clear, descriptive title
@@ -132,84 +126,12 @@ Update relevant documentation for your changes:
    ```bash
    python test_lzip.py
    ```
-
-4. **Documentation**: Updated as needed
-
-5. **Example PR Template**:
-   ```markdown
-   ## Description
-   Brief description of the change
-   
-   Fixes #(issue number)
-   
-   ## Type of Change
-   - [ ] Bug fix (non-breaking)
-   - [ ] New feature (non-breaking)
-   - [ ] Breaking change
-   - [ ] Documentation
-   
-   ## Testing
-   Describe testing performed
-   
-   ## Checklist
-   - [ ] Tests pass
-   - [ ] Documentation updated
-   - [ ] No breaking changes (or documented)
-   ```
-
-## Reporting Bugs
-
-Use GitHub Issues with:
-1. Clear title
-2. Description of expected vs actual behavior
-3. Steps to reproduce
-4. Python version and OS
-5. Example code that triggers the bug
-
-```markdown
-**Describe the bug**
-A clear and concise description.
-
-**To Reproduce**
-Steps to reproduce the behavior
-
-**Expected behavior**
-What should happen
-
-**Actual behavior**
-What actually happens
-
-**Environment**
-- Python: 3.10
-- OS: Windows 11
-```
-
-## Feature Requests
-
-Create an issue with:
-1. Clear use case
-2. Why it's useful
-3. Suggested implementation (optional)
-4. Any alternative approaches
-
 ## Communication
 
 - **Issues**: For bugs and features
 - **Discussions**: For questions and ideas
 - **Pull Requests**: For code changes
 - **Slack**: (if available) For real-time discussion
-
-## Code Review Process
-
-Your PR will be reviewed for:
-- Correctness of logic
-- Code quality and style
-- Test coverage
-- Documentation
-- Performance impact
-- Breaking changes
-
-Reviewers may suggest changes - this is normal! We're all learning and improving.
 
 ## Becoming a Maintainer
 
@@ -240,7 +162,7 @@ Contributors are recognized in:
 - Read the documentation thoroughly
 - Ask in a new discussion
 - Join our community channels
-
+- DM ezixen somewhere :)
 ---
 
 Thank you for contributing to making L-ZIP better! 🚀
