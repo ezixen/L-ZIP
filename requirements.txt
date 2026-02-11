@@ -1,0 +1,1 @@
+mcp-core>=0.1.0; python_version >= "3.8"

@@ -1,0 +1,7 @@
+{
+  "aggressive_mode": false,
+  "preserve_examples": true,
+  "include_annotations": false,
+  "min_phrase_length": 3,
+  "default_output_format": "compact"
+}
