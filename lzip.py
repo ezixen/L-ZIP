@@ -346,10 +346,9 @@ class LZIPTranslator:
         return text.strip()
     
     def _compress_phrases(self, text: str) -> str:
-        """Compress common phrases and filler words - AGGRESSIVE mode for better compression"""
+        """Compress common phrases and filler words - ULTRA AGGRESSIVE mode"""
         
-        # Step 0a: Handle repetitive words (e.g., "word word word..." -> handle)
-        # Replace 5+ repeated words with count notation
+        # Step 0a: Handle repetitive words early
         words = text.split()
         if len(words) > 0:
             compressed_words = []
@@ -357,12 +356,10 @@ class LZIPTranslator:
             while i < len(words):
                 current_word = words[i]
                 count = 1
-                # Count consecutive identical words
                 while i + count < len(words) and words[i + count] == current_word:
                     count += 1
                 
                 if count >= 5:
-                    # Replace with x{count} notation for highly repetitive content
                     compressed_words.append(f"{current_word}x{count}")
                     i += count
                 else:
@@ -371,27 +368,33 @@ class LZIPTranslator:
             
             text = ' '.join(compressed_words)
         
-        # Step 0: Apply multi-word phrase replacements FIRST (before abbreviations)
+        # Step 0b: Multi-word phrase replacements with high compression
         phrase_compressions = [
-            (r'\bstep by step\b', 'step_by_step'),
-            (r'\bchain of thought\b', 'chain_of_thought'),
-            (r'\broot cause\b', 'root_cause'),
-            (r'\bunit test\b', 'unit_test'),
-            (r'\bint test\b', 'int_test'),
-            (r'\bdesign pattern\b', 'design_pattern'),
-            (r'\brest api\b', 'REST_API'),
-            (r'\basync await\b', 'async_await'),
-            (r'\bstateless api\b', 'stateless_API'),
-            (r'\berror handling\b', 'error_handling'),
+            (r'\bas soon as\b', 'ASAP'),
+            (r'\bas possible\b', 'ASAP'),
+            (r'\bstep by step\b', 'step-by-step'),
+            (r'\bchain of thought\b', 'CoT'),
+            (r'\broot cause\b', 'root-cause'),
+            (r'\bunit test\b', 'unittest'),
+            (r'\bint test\b', 'inttest'),
+            (r'\bdesign pattern\b', 'pat'),
+            (r'\brest api\b', 'REST'),
+            (r'\basync await\b', 'async'),
+            (r'\berror handling\b', 'errors'),
             (r'\buser experience\b', 'UX'),
             (r'\buser interface\b', 'UI'),
             (r'\bmachine learning\b', 'ML'),
             (r'\bdeep learning\b', 'DL'),
             (r'\bartificial intelligence\b', 'AI'),
-            (r'\bnatural language\b', 'NL'),
-            (r'\bdata structure\b', 'data_struct'),
-            (r'\bcloud infrastructure\b', 'cloud_infra'),
-            (r'\bmonitoring and logging\b', 'monitoring+logging'),
+            (r'\bnatural language\b', 'NLP'),
+            (r'\bdata structure\b', 'data-struct'),
+            (r'\bcloud infrastructure\b', 'cloud-infra'),
+            (r'\bmonitoring and logging\b', 'monitoring'),
+            (r'\bsecurity vulnerabilities\b', 'vuln'),
+            (r'\bperformance issues\b', 'perf-issues'),
+            (r'\bcode style\b', 'style'),
+            (r'\berror handling\b', 'error-handling'),
+            (r'\breal-world\b', 'real'),
         ]
         
         for pattern, replacement in phrase_compressions:
@@ -399,17 +402,17 @@ class LZIPTranslator:
         
         # Step 1: Apply abbreviations (telegraphic compression)
         if self.config.enable_symbols:
-            # Apply number abbreviations first (5000 -> 5k, etc.)
             for pattern, replacement in self.ABBREVIATIONS.items():
                 text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
         
-        # Step 2: Apply symbol replacements if enabled (with word boundaries - SAFE)
+        # Step 2: Apply symbol replacements
         if self.config.enable_symbols:
             for pattern, replacement in self.SYMBOL_MAP.items():
                 text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
         
-        # Step 3: Remove filler words and verbose phrases
-        fillers = [
+        # Step 3: ULTRA-AGGRESSIVE filler word removal
+        # Remove ALL truly redundant words
+        ultra_aggressive_fillers = [
             r'\bplease\b',
             r'\bkindly\b',
             r'\bfor me\b',
@@ -445,32 +448,54 @@ class LZIPTranslator:
             r'\bconsequently\b',
             r'\balso\b',
             r'\bas well\b',
+            r'\bas well as\b',
             r'\btoo\b',
             r'\bvery\b',
             r'\breally\b',
             r'\bquite\b',
             r'\bsuch that\b',
             r'\bin such a way\b',
+            r'\bat all\b',
+            r'\bin any way\b',
+            r'\bin all\b',
+            r'\bin any case\b',
+            r'\bby the way\b',
+            r'\bof course\b',
+            r'\bcertainly\b',
+            r'\bobviously\b',
+            r'\bclearly\b',
+            r'\bsimply\b',
+            r'\bjust\b',
+            r'\bonly\b',
+            r'\byes\b',
+            r'\bno\b',
+            r'\bor so\b',
+            r'\b(?:a|an|the)\s+(?:a|an|the)\b',  # Double articles
         ]
         
-        for filler in fillers:
+        for filler in ultra_aggressive_fillers:
             text = re.sub(filler, '', text, flags=re.IGNORECASE)
         
-        # Step 4: Clean up prepositions and articles more aggressively
-        # Remove articles and small prepositions when they're clearly redundant
-        unnecessary_words = [
+        # Step 4: Remove articles and prepositions
+        unnecessary = [
             r'\ba\s+',
             r'\ban\s+',
             r'\bthe\s+',
-            r'\bsome\s+',
-            r'\bany\s+',
+            r'\bof\s+',
+            r'\bfor\s+',
+            r'\bto\s+',
+            r'\bin\s+',
+            r'\bon\s+',
+            r'\bat\s+',
+            r'\bby\s+',
+            r'\bwith\s+',
+            r'\bfrom\s+',
         ]
         
-        for word in unnecessary_words:
-            # Be careful with technical terms - don't remove if followed by capitals (acronyms)
+        for word in unnecessary:
             text = re.sub(word, '', text, flags=re.IGNORECASE)
         
-        # Step 5: Remove double spaces and normalize whitespace
+        # Step 5: Normalize whitespace
         text = re.sub(r'\s+', ' ', text)
         
         return text.strip()
