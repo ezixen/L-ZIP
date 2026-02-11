@@ -279,7 +279,7 @@ class LZIPTranslator:
         ]
         
         for filler in fillers:
-            text = re.sub(filler, '', text, flags=re.IGNORECASE, count=5)
+            text = re.sub(filler, '', text, count=5, flags=re.IGNORECASE)
         
         # Remove double spaces created by replacements
         text = re.sub(r'\s+', ' ', text)
