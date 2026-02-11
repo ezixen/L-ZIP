@@ -237,8 +237,10 @@ class LZIPTranslator:
         obj_patterns = [
             # "your objective is to write..." or "goal is to create..." 
             (r'(?:your\s+)?(?:objective|goal)\s+(?:is\s+)?(?:to\s+)?([a-z0-9_\s]{2,50}?)(?:\.|,|;|and|$)', 1),
-            # Direct action detection
-            (r'(?<!to\s)(?:write|create|generate|produce|develop|design)\s+([a-z0-9_\s]{2,50}?)(?:\.|,|;|and)', 1),
+            # Imperative commands at start: "Write X", "Create X" (excluding "provide" which is for OUT)
+            (r'(?:^|\.\s+)(?:write|create|generate|produce|develop|design|analyze|summarize)\s+(?:a\s+)?([a-z0-9_\s]{2,45}?)(?:\.|,|;|for|with|about)', 1),
+            # Direct action detection (fallback, more conservative)
+            (r'(?<!to\s)(?:write|create|generate|produce|develop|design)\s+([a-z0-9_\s]{2,40}?)(?:\s+(?:about|for|with)|\.|\.|,|;|and)', 1),
         ]
         
         for pattern, group in obj_patterns:
@@ -274,8 +276,12 @@ class LZIPTranslator:
         
         # Look for OUT (output format)
         out_patterns = [
+            # "output/format/provide as X" or "Use X formatting"
             (r'(?:output|format|return|provide|should be)\s+(?:as\s+)?(?:a\s+)?([a-z\s]{2,40}?)(?:[.,;]|$)', 1),
-            (r'formatted\s+as\s+(?:a\s+)?([a-z\s]{2,40}?)(?:[.,;]|$)', 1),
+            # "Use X formatting/format/markup" pattern
+            (r'use\s+([a-z]+)\s+(?:formatting|format|markup|style|structure)\b', 1),
+            # "formatted as X" pattern
+            (r'formatted?\s+as\s+(?:a\s+)?([a-z\s]{2,40}?)(?:[.,;]|$)', 1),
         ]
         
         for pattern, group in out_patterns:
