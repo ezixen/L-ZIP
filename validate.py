@@ -4,7 +4,10 @@ Quick validation script for L-ZIP functionality
 """
 
 import sys
-sys.path.insert(0, r'D:\Dev\L-ZIP')
+import os
+
+# Add current directory to path for imports
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from lzip import LZIPTranslator, create_translator
 from mcp_server import LZIPMCPServer, create_server
