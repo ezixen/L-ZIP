@@ -142,7 +142,7 @@ vscode-extension/
 - 🔄 ML-based context understanding (SmolLM-135M)
 - 🔄 Custom compression rules per workspace
 - 🔄 Batch processing multiple prompts
-- 🔄 Integration with Copilot Chat
+- 🔄 Direct language model API integration
 
 ## 📄 License
 

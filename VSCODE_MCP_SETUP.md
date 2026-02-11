@@ -1,210 +1,242 @@
-# VS Code GitHub Copilot MCP Integration - L-ZIP
+# L-ZIP VS Code Integration Guide
 
-## Quick Setup (5 minutes)
+**Version:** 1.0.0  
+**Author:** ezixen  
+**Status:** Direct API & CLI Available | MCP Integration Planned
 
-### Step 1: Install Location
-Your L-ZIP MCP server is installed at:
+---
+
+## Installation & Setup
+
+### Step 1: Install L-ZIP
+
+```bash
+cd l-zip
+pip install -r requirements.txt
 ```
-/path/to/l-zip/
-```
 
-### Step 2: Add to VS Code Settings
+### Step 2: Configure VS Code
 
 1. Open VS Code Settings (JSON):
    - Press `Ctrl+Shift+P`
    - Type: "Preferences: Open User Settings (JSON)"
    - Press Enter
 
-2. Add this configuration to your settings.json:
+2. Add Java JDK configuration:
 
 ```json
 {
-  "github.copilot.advanced": {
-    "mcp": {
-      "servers": {
-        "l-zip": {
-          "command": "python",
-          "args": ["/path/to/l-zip/mcp_stdio_server.py"],
-          "description": "L-ZIP Token Compression (50-70% savings)"
-        }
-      }
-    }
-  }
+  "java.jdt.ls.java.home": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.10.7-hotspot"
 }
 ```
 
-**If you already have settings**, merge it like this:
-```json
-{
-  "existing.setting": "value",
-  "github.copilot.advanced": {
-    "mcp": {
-      "servers": {
-        "l-zip": {
-          "command": "python",
-          "args": ["/path/to/l-zip/mcp_stdio_server.py"],
-          "description": "L-ZIP Token Compression"
-        }
-      }
-    }
-  }
-}
-```
+### Step 3: Install L-ZIP VS Code Extension
 
-3. Save the file (Ctrl+S)
+Load the local extension for status bar + token estimator:
 
-### Step 3: Restart VS Code
-- Close VS Code completely
-- Reopen VS Code
-- L-ZIP MCP should now be available
-
-### Step 4: Test Integration
-
-Open GitHub Copilot Chat (Ctrl+Shift+I) and try:
-
-**Method 1: Ask Copilot to compress**
-```
-@l-zip compress this: Write a Python function that validates email addresses with error handling and tests
-```
-
-**Method 2: Use the tool directly**
-In Copilot Chat, type `/` and look for L-ZIP tools:
-- `compress_prompt` - Compress your prompts
-- `expand_lzip` - Expand L-ZIP back
-
-### Step 5: Verify It's Working
-
-You should see output like:
-```
-L-ZIP Compressed Prompt:
-ACT:Senior_Dev [Lang:Python] OBJ:Email_Validator OUT:Function+Tests+ErrorHandling
-
-Tokens saved: 54 (93.3% compression)
-```
+1. Open VS Code
+2. Press `Ctrl+Shift+P` → "Extensions: Install from VSIX"
+3. Navigate to `vscode-extension/` folder
+4. Select the extension
 
 ---
 
-## Alternative: Manual MCP Configuration File
+## Core Usage Methods
 
-If GitHub Copilot supports external MCP configs:
+### Method A: CLI Interface
 
-Create: `%APPDATA%\Code\User\mcp-servers.json`
+Interactive command-line tool for L-ZIP operations:
 
-Content:
-```json
-{
-  "l-zip": {
-    "command": "python",
-    "args": ["/path/to/l-zip/mcp_stdio_server.py"],
-    "description": "L-ZIP Token Compression - Save 50-70% on tokens"
-  }
-}
+```bash
+python cli.py
+```
+
+**Available commands:**
+```
+compress    - Translate English to L-ZIP
+expand      - Translate L-ZIP back to English
+batch       - Compress multiple prompts
+dict        - Show L-ZIP operators
+templates   - Show example templates
+demo        - Run interactive demo
+help        - Show all commands
+```
+
+**Example:**
+```
+lzip> compress
+Enter English prompt (or 'cancel' to abort):
+> Write a Python function that validates email addresses
+
+L-ZIP Translation:
+ACT:Dev [Lang:Python] OBJ:Email_Validator GEN:Function OUT:Code+Tests
+```
+
+### Method B: Python API
+
+Use L-ZIP directly in your Python code:
+
+```python
+from lzip import LZIPTranslator
+
+translator = LZIPTranslator()
+
+# Translate to L-ZIP
+english = "Please write a Python script that processes CSV files"
+lzip_prompt, stats = translator.translate_to_lzip(english)
+
+print(f"L-ZIP: {lzip_prompt}")
+print(f"Token Savings: {stats['compression_ratio']}%")
+
+# Expand back to English
+expanded, _ = translator.translate_from_lzip(lzip_prompt)
+print(f"Expanded: {expanded}")
+```
+
+### Method C: VS Code Extension
+
+Built-in status bar tools for token estimation:
+
+1. **L-ZIP MCP Toggle** - Shows enabled/disabled status
+2. **L-ZIP Estimator** - Enter prompts to see compression
+
+---
+
+## VS Code Snippets
+
+Pre-built templates for quick prompting:
+
+| Snippet | Command | Purpose |
+|---------|---------|----------|
+| `lzip-func` | Snippet autocomplete | Generate function |
+| `lzip-review` | Snippet autocomplete | Code review |
+| `lzip-fix` | Snippet autocomplete | Debug & fix |
+| `lzip-test` | Snippet autocomplete | Create tests |
+| `lzip-docs` | Snippet autocomplete | Write docs |
+| `lzip-refactor` | Snippet autocomplete | Refactor code |
+| `lzip-optimize` | Snippet autocomplete | Optimize perf |
+| `lzip-types` | Snippet autocomplete | Add type hints |
+| `lzip-api` | Snippet autocomplete | API endpoint |
+| `lzip-class` | Snippet autocomplete | Design class |
+| `lzip-db` | Snippet autocomplete | Database model |
+| `lzip-error` | Snippet autocomplete | Error handling |
+
+**Installation:**
+1. Copy `.vscode/python.json`
+2. Paste into `%APPDATA%\Code\User\snippets\python.json`
+3. Restart VS Code
+4. Type any `lzip-*` to autocomplete
+
+---
+
+## Usage Examples
+
+### Example 1: Function Generation
+
+**Step 1: Create L-ZIP prompt**
+```
+ACT:Senior_Dev [Lang:Python] OBJ:Parse_JSON GEN:Function OUT:Code+Docstring+Tests
+```
+
+**Step 2: Use with your AI tool of choice**
+- Paste into ChatGPT, Claude, Gemini, or any LLM
+- Much more efficient than verbose English prompts
+
+### Example 2: Code Review
+
+```
+ACT:Code_Reviewer CTX:[Code_Below] OBJ:Review | Optimize
+EVAL:Performance+Security+Readability OUT:Report+Suggestions
+```
+
+### Example 3: Bug Fixing
+
+```
+ACT:Debugger CTX:[Error_Log] OBJ:Fix_Bug 
+THINK:RootCause+Prevention OUT:Solution+Explanation
 ```
 
 ---
 
 ## Troubleshooting
 
-### MCP Server Not Showing Up?
+### Snippets Not Showing?
 
-1. **Check Python Path**
-   ```powershell
-   python --version
-   ```
-   Should show Python 3.8+
+1. Check `.vscode/python.json` is in `%APPDATA%\Code\User\snippets\`
+2. Restart VS Code completely
+3. Verify file has `.json` extension
 
-2. **Test MCP Server Manually**
-   ```powershell
-   cd /path/to/l-zip
-   echo '{"method":"initialize","params":{}}' | python mcp_stdio_server.py
-   ```
-   Should return JSON response
+### Python Version Issues?
 
-3. **Check VS Code Output**
-   - View → Output
-   - Select "GitHub Copilot" from dropdown
-   - Look for L-ZIP related messages
-
-### MCP Server Crashes?
-
-Run this test:
 ```powershell
-cd /path/to/l-zip
-python -c "from lzip import LZIPTranslator; print('✓ Import OK')"
+python --version
+# Should show 3.8 or higher
 ```
 
-If it fails, check:
-- Python version (needs 3.8+)
-- File permissions
-- Path correctness
+### Import Errors?
 
-### GitHub Copilot Doesn't Support MCP?
-
-As of Feb 2026, MCP support in GitHub Copilot may vary. Alternatives:
-
-**Plan B: Use as a Snippet**
-1. Copy L-ZIP snippets from `.vscode/python.json`
-2. Install in VS Code snippets folder
-3. Type `lzip-func`, `lzip-review`, etc.
-
-**Plan C: Direct Python Script**
-```python
-# Use this in terminal
-python -c "from lzip import LZIPTranslator; t=LZIPTranslator(); print(t.translate_to_lzip('Your prompt here')[0])"
+```powershell
+cd d:\Dev\L-ZIP
+python -c "from lzip import LZIPTranslator; print('✓ OK')"
 ```
 
 ---
 
-## Usage Examples
+## Future Enhancements
 
-### Example 1: Compress Before Asking Copilot
+### Planned: Direct Language Model Integration
 
-**Instead of:**
-```
-Hey Copilot, I need you to write a Python function that validates 
-email addresses. The function should check for proper formatting, 
-handle edge cases, and include comprehensive error handling. Please 
-provide the complete implementation with docstring, type hints, and 
-a full test suite covering all edge cases.
-```
+Future versions will include native integration with:
+- **OpenAI GPT models** - Direct API calls for prompt compression
+- **Anthropic Claude** - Stream L-ZIP translations via Claude API
+- **Google Gemini** - Native compression as LLM feature
+- **Open source LLMs** - Local model support with Ollama/LM Studio
 
-**Use L-ZIP:**
-```
-ACT:Senior_Dev [Lang:Python] OBJ:Email_Validator OUT:Function+Tests+Docstring+TypeHints
-```
+This will eliminate the need to copy-paste L-ZIP prompts manually and provide real-time compression with streaming results.
 
-**Savings: 93.3% tokens**
+### Architecture
 
-### Example 2: Code Review
-
-**Instead of:**
 ```
-Please review the following code for performance issues, security 
-vulnerabilities, and code quality. Suggest optimizations.
+┌─────────────────────────────────────────┐
+│   User Input (English Prompt)           │
+└────────────────┬────────────────────────┘
+                 │
+                 ↓
+        ┌─────────────────┐
+        │  L-ZIP Engine   │  (Current)
+        └────────┬────────┘
+                 │
+                 ├─→ CLI Output
+                 ├─→ Python API
+                 ├─→ VS Code Extension
+                 │
+                 ↓
+        ┌──────────────────────────┐
+        │  [Future] LLM Integration │
+        │  - Auto compression      │
+        │  - Streaming results     │
+        │  - Multi-model support   │
+        │  - Real-time preview     │
+        └──────────────────────────┘
 ```
-
-**Use L-ZIP:**
-```
-ACT:Code_Reviewer CTX:[Code_Below] OBJ:Review EVAL:Performance+Security OUT:Report
-```
-
-**Savings: 80% tokens**
 
 ---
 
 ## Next Steps
 
-1. ✅ Add to VS Code settings
-2. ✅ Restart VS Code
-3. ✅ Test with Copilot Chat
-4. ✅ Use L-ZIP snippets
-5. ✅ Enjoy 50-70% token savings!
+1. ✅ Install L-ZIP package
+2. ✅ Set up VS Code Java settings
+3. ✅ Install L-ZIP extension
+4. ✅ Try CLI: `python cli.py`
+5. ✅ Try Python API with your own code
+6. ✅ Use snippets in VS Code
+7. ⏳ Future: Use native LLM integration when released
 
 ---
 
-For more help, see:
-- [MCP_INTEGRATION.md](MCP_INTEGRATION.md)
-- [VSCODE_QUICK_REFERENCE.md](VSCODE_QUICK_REFERENCE.md)
-- [examples.py](examples.py) - 18 ready templates
+For more details:
+- [README.md](README.md) - Overview & examples
+- [MCP_INTEGRATION.md](MCP_INTEGRATION.md) - MCP protocol details
+- [BEST_PRACTICES.md](BEST_PRACTICES.md) - Compression best practices
 
 **Questions?** https://github.com/ezixen/l-zip/issues

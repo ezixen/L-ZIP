@@ -293,14 +293,14 @@ ACT:Debugger OBJ:Fix_Bug THINK:RootCause+Prevention OUT:Solution
 
 ## Integration Examples
 
-### With GitHub Copilot Chat
+### With Any AI Tool (ChatGPT, Claude, Gemini, etc.)
 
-1. Open Copilot Chat: `Ctrl+Shift+I`
-2. Paste L-ZIP prompt:
+1. Generate or copy an L-ZIP prompt
+2. Paste into your AI tool:
    ```
    ACT:Senior_Dev [Lang:Python] OBJ:Parse_JSON OUT:Function+Tests
    ```
-3. Copilot generates code using 70% fewer tokens! ✓
+3. AI generates code using 70% fewer tokens! ✓
 
 ### With Python Script
 

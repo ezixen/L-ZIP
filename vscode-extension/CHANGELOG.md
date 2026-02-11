@@ -49,7 +49,7 @@ All notable changes to the L-ZIP VS Code extension will be documented in this fi
 - ML-based context understanding with SmolLM-135M
 - Batch processing for multiple prompts
 - Custom compression rules per workspace
-- Integration with GitHub Copilot Chat
+- Direct language model API integration (OpenAI, Claude, Gemini)
 - Offline mode with cached translations
 - Performance optimizations
 - Compression level slider (conservative/balanced/aggressive)
@@ -62,7 +62,7 @@ All notable changes to the L-ZIP VS Code extension will be documented in this fi
 - **Smart Compression:** ML model for context-aware compression
 - **Batch Mode:** Process multiple prompts at once
 - **Custom Rules:** Workspace-specific compression preferences
-- **Copilot Integration:** Direct integration with Copilot Chat
+- **LLM Integration:** Direct language model support (OpenAI, Claude, Gemini)
 
 ### [0.2.0] - Planned
 - **Templates:** Pre-built L-ZIP templates for common tasks

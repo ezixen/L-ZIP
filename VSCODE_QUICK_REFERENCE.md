@@ -8,7 +8,7 @@
 
 ## 🚀 Quick Start (30 seconds)
 
-### Copy-Paste These Into Copilot Chat:
+### Copy-Paste L-ZIP Prompts Into Your AI Tool:
 
 **Generate a function:**
 ```
@@ -49,7 +49,16 @@ THINK:RootCause + Solution OUT:Fixed_Code + Explanation
 
 ---
 
-## 📋 How to Install Snippets
+## 📋 How to Use L-ZIP Prompts
+
+### Copy & Paste to Any AI Tool
+
+1. Generate an L-ZIP prompt (use snippets or create manually)
+2. Copy the L-ZIP formatted text
+3. Paste into your AI tool: ChatGPT, Claude, Gemini, etc.
+4. Get 50-70% more efficient responses
+
+### Using Snippets in VS Code
 
 1. **Copy** the `python.json` file from `.vscode/` folder
 2. **Locate** VS Code snippets: `%APPDATA%\Code\User\snippets\` (Windows)
@@ -63,47 +72,49 @@ THINK:RootCause + Solution OUT:Fixed_Code + Explanation
 
 ### Workflow A: Function Generation (30 seconds)
 ```python
+# Type: lzip-func (Tab to expand)
 # ACT:Senior_Dev [Lang:Python] OBJ:Email_Validator
 # OUT:Function + Docstring + Tests
 
 def validate_email(email: str) -> bool:
-    # Copilot generates the implementation
+    # Copy the L-ZIP above and paste into your AI tool
 ```
 
 ### Workflow B: Code Review
 1. Select code in editor
-2. Open Copilot Chat: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd>
-3. Paste:
+2. Copy the code
+3. Paste this into your AI tool:
 ```
 ACT:Code_Reviewer CTX:[Code_Below] OBJ:Review + Optimize
 OUT:Analysis + Refactoring_Suggestions
 ```
+4. Then paste your code
 
 ### Workflow C: Bug Triage
 1. See error in terminal
-2. Open Copilot Chat
-3. Paste:
+2. Paste this into your AI tool:
 ```
 ACT:Debugger CTX:[Error_Message] OBJ:Fix_Bug
 THINK:RootCause OUT:Solution + Prevention
 ```
+3. Add error details as context
 
-### Workflow D: Batch Processing
-1. Ask Copilot once with L-ZIP
-2. For follow-ups, just say:
+### Workflow D: Follow-up Requests
+1. After your AI tool responds to an L-ZIP prompt
+2. Use follow-ups like:
    - "Add error handling"
    - "Add type hints"
    - "Generate tests"
    - "Optimize it"
    
-   (Copilot remembers L-ZIP context!)
+   (The AI remembers the L-ZIP context!)
 
 ---
 
 ## 📊 Expected Results
 
-| Task | Compression | Time Saved |
-|------|-------------|-----------|
+| Task | Compression | Savings |
+|------|-------------|----------|
 | Simple function | 40-50% | ~30 seconds |
 | Complex class | 55-65% | ~2 minutes |
 | Full API module | 60-75% | ~5 minutes |
@@ -115,11 +126,11 @@ THINK:RootCause OUT:Solution + Prevention
 
 ## 💡 Pro Tips
 
-1. **Use in code comments** - Copilot understands context better
-2. **Chain short prompts** - "Add X" after "Generate Y"
-3. **Be specific** - [Lang:Python] > "python"
+1. **Combine with comments** - Mix L-ZIP with English for clarity
+2. **Chain improvements** - Start with L-ZIP, then refine
+3. **Be specific** - `[Lang:Python]` is better than just "python"
 4. **Use alternatives** - `|` means "or" (e.g., `Fix_Bug | Optimize`)
-5. **Set output** - Always specify `OUT:Code + Tests + Docs`
+5. **Always specify output** - `OUT:Code + Tests + Docs` is clearer
 
 ---
 
@@ -151,10 +162,9 @@ Reload VS Code after changes: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> → 
 - Restart VS Code completely
 - Check file has `.json` extension
 
-**Copilot not understanding L-ZIP?**
-- Use exact L-ZIP syntax (ACT:, OBJ:, OUT:)
-- Put it in code comment first time
-- Then use in chat for follow-ups
+**Not seeing compression?**
+- Very short prompts don't compress much (L-ZIP shines on verbose ones)
+- Try with longer, more detailed English prompts
 
 **Compression low?**
 - Add more detail (longer prompts compress better)
@@ -167,12 +177,8 @@ Reload VS Code after changes: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> → 
 
 1. ✅ Install snippets to VS Code
 2. ✅ Try `lzip-func` snippet
-3. ✅ Open Copilot Chat (Ctrl+Shift+I)
-4. ✅ Paste an ACT: prompt
-5. ✅ Watch tokens reduce by 50-70%!
-
-**Questions?** See `README.md` or run `python cli.py` for interactive demo.
-
+3. ✅ Generate an L-ZIP prompt
+4. ✅ Paste into your favorite AI tool
 ---
 
 **Created by:** ezixen  

@@ -88,14 +88,9 @@ Tokens saved: 24 (85.7% compression)
 
 3. **Save and Restart VS Code**
 
-4. **Test in Copilot Chat:**
-   - Press `Ctrl+Shift+I`
-   - Type: `@l-zip compress this: Write a Python function`
-   - Should see compression output!
+4. **Note:** GitHub Copilot Chat MCP support may vary. Use alternative methods below.
 
-### Option 2: Use L-ZIP Snippets Instead
-
-If GitHub Copilot doesn't support MCP servers yet:
+### Option 2: Use L-ZIP Python CLI
 
 1. **Copy snippets:**
    ```powershell
@@ -188,5 +183,5 @@ You'll see live compression demo with stats!
 
 **Your L-ZIP MCP is deployed, tested, and ready to use!** 🚀
 
-Complete **Option 1** above to integrate with GitHub Copilot Chat.
-Or start using snippets/Python immediately!
+Use the CLI, Python API, or VS Code extension above to get started.
+See guides for additional configuration options.
