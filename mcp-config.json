@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "l-zip": {
+      "command": "python",
+      "args": [
+        "D:/Dev/l-zip-deploy/mcp_stdio_server.py"
+      ],
+      "description": "L-ZIP Token Compression - Compress prompts to save 50-70% tokens",
+      "disabled": false
+    }
+  }
+}
