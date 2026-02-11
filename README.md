@@ -1,4 +1,8 @@
-# ![EZIXEN Logo](logo.jpg) L-ZIP: Logic-based Zero-redundancy Information Prompting
+<div align="center">
+  <img src="logo.jpg" alt="EZIXEN Logo" width="200"/>
+</div>
+
+# L-ZIP: Logic-based Zero-redundancy Information Prompting
 
 **By [ezixen](https://github.com/ezixen)**
 
