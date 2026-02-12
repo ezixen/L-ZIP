@@ -28,7 +28,7 @@ L-ZIP is a symbolic prompting protocol designed to work seamlessly with modern L
 
 1. Download `lzip.exe` from the [**releases folder**](https://github.com/ezixen/L-ZIP/tree/main/releases)
 2. Double-click to run
-3. Done! No prerequisites required (Windows 10+)
+3. Done! No prerequisites just Windows 10+
 
 For detailed usage guide, see [USAGE.md](USAGE.md)
 
