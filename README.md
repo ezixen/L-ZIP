@@ -317,6 +317,11 @@ ACT:Dev OBJ:Code // "Write Python code"
 - [ ] Domain-specific extensions (legal, medical, finance)
 - [ ] Custom operator definitions
 - [ ] AI-powered prompt optimization
+- [ ] Unique English word completion abbreviation (shortest unique prefix; dictionary-based, deterministic)
+- [ ] Lightweight context pruning model (intent classifier) for removing redundant phrases
+- [ ] Example of required context level:
+  "My wife bought a car for me." -> keep "for me" (beneficiary is essential)
+  "Create a detailed image of a honeybee for me." -> drop "for me" (imperative request already implies it)
 - [ ] Integration with popular AI frameworks
 - [ ] VS Code extension for real-time compression
 - [ ] Browser extension for web-based AI tools
