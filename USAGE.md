@@ -7,10 +7,30 @@ L-ZIP is a token compression tool that translates English prompts into a compres
 
 ## Quick Start
 
-### Installation
-1. Download `lzip.exe` from the releases page
-2. Run it directly - no installation required!
-3. It's a standalone Windows executable with all dependencies included
+### ⚡ Download & Run (No Installation Needed!)
+**Windows users:** Download `lzip.exe` from the [**releases folder**](https://github.com/ezixen/L-ZIP/tree/main/releases) and run it directly!
+
+- ✓ No installation needed
+- ✓ No prerequisites (Windows 10+)
+- ✓ Everything included in one file (~8.4 MB)
+- ✓ Just download and double-click!
+
+### Installation for Developers
+If you want to build from source or develop:
+
+**Prerequisites:** Python 3.8+
+
+```powershell
+# Clone or navigate to the project directory
+cd L-ZIP
+
+# (Optional) Create a virtual environment
+python -m venv venv
+venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
 
 ### Basic Usage
 **The fastest way:** Paste your prompt, press **Enter 2x fast**, get your compressed result auto-copied to clipboard!
