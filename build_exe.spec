@@ -1,5 +1,5 @@
 # -*- mode: python ; coding: utf-8 -*-
-# PyInstaller spec file for L-ZIP executable
+# PyInstaller spec file for L-ZIP GUI+CLI executable (single-file)
 
 a = Analysis(
     ['cli.py'],
@@ -7,8 +7,10 @@ a = Analysis(
     binaries=[],
     datas=[('D:\\Dev\\L-ZIP\\lzip.py', '.'),
             ('D:\\Dev\\L-ZIP\\mcp_server.py', '.'),
-            ('D:\\Dev\\L-ZIP\\lzip_extended_operators.py', '.')],
-    hiddenimports=['lzip', 'mcp_server'],
+            ('D:\\Dev\\L-ZIP\\lzip_extended_operators.py', '.'),
+            ('D:\\Dev\\L-ZIP\\gui.py', '.'),
+            ('D:\\Dev\\L-ZIP\\images', 'images')],
+    hiddenimports=['lzip', 'mcp_server', 'gui', 'customtkinter', 'darkdetect', 'tkinter', 'PIL'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -33,9 +35,9 @@ exe = EXE(
     bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    upx_exclude=[],
+    upx_exclude=['vcruntime140.dll'],
     runtime_tmpdir=None,
-    console=True,
+    console=False,
     disable_windowed_traceback=False,
     target_arch=None,
     codesign_identity=None,

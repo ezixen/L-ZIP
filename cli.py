@@ -85,37 +85,16 @@ class ClipboardManager:
     
     @staticmethod
     def get_from_clipboard() -> Optional[str]:
-        """Get text from clipboard"""
+        """Get text from clipboard using tkinter (safest cross-platform method)"""
         try:
-            if platform.system() == 'Windows':
-                import ctypes
-                from ctypes.wintypes import HWND, HGLOBAL
-                
-                user32 = ctypes.windll.user32
-                kernel32 = ctypes.windll.kernel32
-                
-                if not user32.OpenClipboard(None):
-                    return None
-                
-                try:
-                    hClipMem = user32.GetClipboardData(1)  # CF_TEXT
-                    if not hClipMem:
-                        hClipMem = user32.GetClipboardData(13)  # CF_UNICODETEXT
-                    if not hClipMem:
-                        return None
-                    
-                    pMem = kernel32.GlobalLock(hClipMem)
-                    if not pMem:
-                        return None
-                    
-                    try:
-                        clipboard_text = ctypes.c_char_p(pMem).value.decode('utf-8', errors='ignore')
-                        return clipboard_text
-                    finally:
-                        kernel32.GlobalUnlock(hClipMem)
-                finally:
-                    user32.CloseClipboard()
-            return None
+            import tkinter as tk
+            root = tk.Tk()
+            root.withdraw()  # Hide the window
+            try:
+                text = root.clipboard_get()
+                return text if text else None
+            finally:
+                root.destroy()
         except Exception:
             return None
 
@@ -130,79 +109,76 @@ class LZIPCLI:
         self.running = True
     
     def display_logo(self, size: str = "512") -> None:
-        """Display logo as text art in console (no external dependencies)"""
+        """Display logo as text art in console (ASCII only, no Unicode box chars)"""
         if size == "512":
-            # Large startup logo with proper centering
+            # Large startup logo with ASCII characters only
             width = 70
-            print("\n" + "█"*72)
-            print("█" + " "*width + "█")
-            
-            # Center each line properly (accounting for emoji width)
-            line1 = "❤  L-ZIP - EZIXEN  ❤"
-            padding1 = (width - len(line1)) // 2
-            print("█" + " "*padding1 + line1 + " "*(width - len(line1) - padding1) + "█")
-            
-            print("█" + " "*width + "█")
-            
-            line2 = "Logic-based Zero-redundancy Information Prompting"
-            padding2 = (width - len(line2)) // 2
-            print("█" + " "*padding2 + line2 + " "*(width - len(line2) - padding2) + "█")
-            
-            print("█" + " "*width + "█")
-            
-            line3 = "Compress Your Prompts • Save Tokens • Accelerate AI"
-            padding3 = (width - len(line3)) // 2
-            print("█" + " "*padding3 + line3 + " "*(width - len(line3) - padding3) + "█")
-            
-            print("█" + " "*width + "█")
-            print("█"*72 + "\n")
+            try:
+                print("\n" + "="*72)
+                print("|" + " "*width + "|")
+                
+                # Center each line properly
+                line1 = "L-ZIP - EZIXEN"
+                padding1 = (width - len(line1)) // 2
+                print("|" + " "*padding1 + line1 + " "*(width - len(line1) - padding1) + "|")
+                
+                print("|" + " "*width + "|")
+                
+                line2 = "Logic-based Zero-redundancy Information Prompting"
+                padding2 = (width - len(line2)) // 2
+                print("|" + " "*padding2 + line2 + " "*(width - len(line2) - padding2) + "|")
+                
+                print("|" + " "*width + "|")
+                
+                line3 = "Compress Your Prompts - Save Tokens - Accelerate AI"
+                padding3 = (width - len(line3)) // 2
+                print("|" + " "*padding3 + line3 + " "*(width - len(line3) - padding3) + "|")
+                
+                print("|" + " "*width + "|")
+                print("="*72 + "\n")
+            except Exception:
+                # Fallback if encoding issues
+                print("\n[L-ZIP - EZIXEN]\n")
         else:
-            # Small separator between prompts
-            border = "═" * 66
-            text = "L-ZIP"
-            padding = (66 - len(text)) // 2
-            left_pad = " " * padding
-            right_pad = " " * (66 - len(text) - padding)
-            
-            print("\n" + "╔" + border + "╗")
-            print("║" + left_pad + text + right_pad + "║")
-            print("╚" + border + "╝" + "\n")
+            # Small separator between prompts - ASCII only
+            try:
+                border = "-" * 66
+                text = "L-ZIP"
+                padding = (66 - len(text)) // 2
+                left_pad = " " * padding
+                right_pad = " " * (66 - len(text) - padding)
+                
+                print("\n" + "+" + border + "+")
+                print("|" + left_pad + text + right_pad + "|")
+                print("+" + border + "+" + "\n")
+            except Exception:
+                print("\n--- L-ZIP ---\n")
     
     def print_header(self):
         """Print application header"""
-        # Display large logo first
         self.display_logo("512")
         
-        print("\n" + "="*70)
-        print("L-ZIP MCP Server - User-Friendly Edition")
-        print("Logic-based Zero-redundancy Information Prompting")
-        print("="*70)
         print()
-        print("✨ DEFAULT MODE: Paste English prompt → Press Enter → Get L-ZIP → Auto-copy")
+        print(">>> DEFAULT MODE: Paste English prompt -> Press Enter 2x -> L-ZIP -> Auto-copy")
         print()
     
     def print_help(self):
         """Print available commands"""
         commands = {
-            "(paste & Enter)": "★ DEFAULT: Translate English to L-ZIP (auto-copy to clipboard)",
-            "compress": "Convert English prompt to L-ZIP format",
-            "expand": "Convert L-ZIP back to English",
-            "batch": "Batch translate multiple prompts",
-            "dict": "Show L-ZIP operator dictionary",
-            "templates": "Show example templates",
-            "version": "Show version info",
-            "demo": "Run interactive demo",
-            "help": "Show this help message",
-            "exit/quit": "Exit the program",
+            "compress (c)": "Convert English prompt to L-ZIP format",
+            "expand (e)": "Convert L-ZIP back to English",
+            "batch (b)": "Batch translate multiple prompts",
+            "dict (d)": "Show L-ZIP operator dictionary",
+            "templates (t)": "Show example templates",
+            "version (v)": "Show version info",
+            "help (h)": "Show this help message",
+            "exit/quit (q)": "Exit the program",
         }
         
         print("\nAvailable Commands:")
         print("-" * 70)
         for cmd, desc in commands.items():
-            if cmd == "(paste & Enter)":
-                print(f"  {cmd:20} ★ {desc}")
-            else:
-                print(f"  {cmd:20} - {desc}")
+            print(f"  {cmd:20} - {desc}")
         print("-" * 70)
     
     def cmd_compress(self, args: list):
@@ -333,45 +309,6 @@ class LZIPCLI:
             for key, value in result['aggregate_compression'].items():
                 print(f"  {key}: {value}")
         print()
-    
-    def cmd_demo(self, args: list):
-        """Run interactive demo with sample prompts"""
-        demo_prompts = [
-            "Please write a Python script that reads a CSV file, filters for rows where the age is over 30, and saves the results to a new CSV file.",
-            "Act as a senior software architect. Review the following code for bugs, security vulnerabilities, performance issues, and suggest refactoring for readability and maintainability.",
-            "Create a comprehensive marketing strategy for a SaaS startup with a budget of $50,000 over 6 months, considering current market conditions.",
-            "Summarize the key points from this research paper and identify the top 3 limitations.",
-            "Design a database schema for an e-commerce application that handles products, users, orders, and reviews with proper relationships.",
-        ]
-        
-        print("\n" + "="*70)
-        print("INTERACTIVE DEMO")
-        print("="*70)
-        print("\nDemonstrating L-ZIP translation with sample prompts...\n")
-        
-        for i, prompt in enumerate(demo_prompts, 1):
-            print(f"\n{'='*70}")
-            print(f"DEMO {i}")
-            print(f"{'='*70}")
-            
-            # Show original
-            print(f"\nOriginal Prompt (English):")
-            print(f"{prompt[:100]}..." if len(prompt) > 100 else prompt)
-            
-            # Translate
-            result = self.server.handle_translate_to_lzip(prompt)
-            
-            print(f"\nL-ZIP Translation:")
-            print(f"{result['lzip_prompt']}")
-            
-            print(f"\nCompression: {result['compression_report']['token_reduction']}")
-            
-            input("\nPress Enter to continue to next example...")
-        
-        print("\n" + "="*70)
-        print("Demo Complete!")
-        print("="*70 + "\n")
-    
     def cmd_version(self, args: list):
         """Show version info"""
         result = self.server.handle_get_version()
@@ -397,8 +334,6 @@ class LZIPCLI:
             self.cmd_templates([])
         elif command in ['batch', 'b']:
             self.cmd_batch([])
-        elif command in ['demo']:
-            self.cmd_demo([])
         elif command in ['help', 'h', '?']:
             self.print_help()
         elif command in ['version', 'v']:
@@ -415,13 +350,26 @@ class LZIPCLI:
         print("\nGoodbye!\n")
         self.running = False
     
-    def read_multiline_input(self, prompt: str = "") -> str:
+    def sanitize_text(self, text: str) -> str:
         """
-        Read multi-line input from user using PowerShell-style handling.
+        Sanitize pasted text to remove hidden characters.
+        Preserves: visible text, numbers, punctuation, spaces, line breaks, capitalization
+        Removes: control characters, special unicode, zero-width chars, etc.
+        """
+        # Remove control characters except newline (\n) and tab (\t)
+        sanitized = "".join(
+            ch for ch in text
+            if ch == "\n" or ch == "\t" or ord(ch) >= 32
+        )
+        return sanitized
+    
+    def read_multiline_input(self, prompt_text: str = "") -> str:
+        """
+        Read multi-line input from user.
         Reads all input until two consecutive blank lines (press Enter twice when done).
         """
-        if prompt:
-            print(prompt)
+        if prompt_text:
+            print(prompt_text, end="")
         
         lines = []
         consecutive_empty = 0
@@ -429,7 +377,9 @@ class LZIPCLI:
         try:
             while True:
                 try:
+                    # Read input and sanitize to remove hidden characters
                     line = input()
+                    line = self.sanitize_text(line)
                     
                     # Track empty lines - append ALL lines including blank ones
                     if line.strip() == "":
@@ -457,7 +407,7 @@ class LZIPCLI:
         self.print_header()
         self.print_help()
         
-        print("\n💡 TIP: Paste your multi-line prompt, then press Enter 2x fast to send.")
+        print("\n💡 TIP: Paste text, press Enter twice to submit, Ctrl+C to cancel.")
         
         while self.running:
             try:
@@ -479,26 +429,60 @@ class LZIPCLI:
 
 
 def main():
-    """Main entry point"""
-    cli = LZIPCLI()
-    
-    if len(sys.argv) > 1:
-        # Run with command-line arguments
-        cmd = ' '.join(sys.argv[1:])
-        cli.run_single_command(cmd)
-    elif not sys.stdin.isatty():
-        # Piped input detected - read everything from stdin as one prompt
-        try:
-            piped_input = sys.stdin.read().strip()
-            if piped_input:
-                cli.run_single_command(piped_input)
-            else:
+    """Main entry point - launch GUI by default, CLI with --cli flag"""
+    # Check if CLI mode requested via --cli flag
+    if '--cli' in sys.argv:
+        # Remove --cli from args before processing
+        sys.argv = [arg for arg in sys.argv if arg != '--cli']
+        cli = LZIPCLI()
+        
+        if len(sys.argv) > 1:
+            cmd = ' '.join(sys.argv[1:])
+            cli.run_single_command(cmd)
+        elif not sys.stdin.isatty():
+            try:
+                piped_input = sys.stdin.read().strip()
+                if piped_input:
+                    cli.run_single_command(piped_input)
+                else:
+                    cli.run_interactive()
+            except Exception as e:
+                print(f"Error reading piped input: {e}")
                 cli.run_interactive()
-        except Exception as e:
-            print(f"Error reading piped input: {e}")
+        else:
             cli.run_interactive()
-    else:
-        # Interactive mode
+        return
+    
+    # Default: Try to launch GUI
+    try:
+        from gui import LZIPGuiApp
+        root = LZIPGuiApp()
+        root.mainloop()
+    except (ImportError, ModuleNotFoundError) as e:
+        # GUI not available - fall back to CLI
+        print(f"\nGUI not available (import failed: {e}). Starting CLI mode...\n")
+        cli = LZIPCLI()
+        
+        if len(sys.argv) > 1:
+            cmd = ' '.join(sys.argv[1:])
+            cli.run_single_command(cmd)
+        elif not sys.stdin.isatty():
+            try:
+                piped_input = sys.stdin.read().strip()
+                if piped_input:
+                    cli.run_single_command(piped_input)
+                else:
+                    cli.run_interactive()
+            except Exception as e:
+                print(f"Error reading piped input: {e}")
+                cli.run_interactive()
+        else:
+            cli.run_interactive()
+    except Exception as e:
+        # Fallback to CLI on any GUI error
+        print(f"\nWarning: Could not launch GUI: {e}")
+        print(f"Starting CLI mode instead...\n")
+        cli = LZIPCLI()
         cli.run_interactive()
 
 
